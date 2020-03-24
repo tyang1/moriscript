@@ -13,7 +13,7 @@ let src = fs.readFileSync(morifile, (err, data) => {
   return data.toString();
 });
 
-//use moriscript/plugin to transform the source code:
+//use moriscript/plugin to transform the source code, like running https://astexplorer.net/ programmatically
 let transformed = babel.transform(src, {
   plugins: [moriscript]
 });
