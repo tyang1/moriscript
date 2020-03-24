@@ -3,14 +3,14 @@ module.exports = function(babel) {
   //Let’s start by adding an ArrayExpression method onto our visitor object.
   // e.g. if it's of type ArrayExpression, we would want to extend the member of the code with a different method
   const { types: t } = babel;
+  const moriExpressions = name => {
+    return t.memberExpression(t.identifier("mori"), t.identifier(name));
+  };
   return {
     visitor: {
       ArrayExpression: context => {
         context.replaceWith(
-          t.callExpression(
-            t.memberExpression(t.identifier("mori"), t.identifier("vector")),
-            context.node.elements
-          )
+          t.callExpression(moriExpressions("vector"), context.node.elements)
         );
       },
       ObjectExpression: context => {
@@ -19,10 +19,7 @@ module.exports = function(babel) {
           props.push(t.stringLiteral(prop.key.name), prop.value);
         });
         context.replaceWith(
-          t.callExpression(
-            t.memberExpression(t.identifier("mori"), t.identifier("hashMap")),
-            props
-          )
+          t.callExpression(moriExpressions("hashMap"), props)
         );
       }
     }
